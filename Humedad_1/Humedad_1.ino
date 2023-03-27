@@ -1,3 +1,5 @@
+#include <dummy.h>
+
 // Definir el pin de entrada del sensor
 const int humedadPin = 4; // GPIO4 (A0)
 

@@ -2,8 +2,9 @@
 from machine import Pin, ADC
 import time
 
+
 # Definir el pin de entrada del sensor
-humedadPin = ADC(0)
+humedadPin = Pin(4, Pin.IN)
 
 # Definir el pin de salida para el LED interno
 ledPin = Pin(2, Pin.OUT)
@@ -17,16 +18,17 @@ ledPin.value(0)
 
 while True:
   # Leer el valor analógico del sensor de humedad
-  lectura = humedadPin.read()
+    humedadADC = ADC(humedadPin)
+    lectura = humedadADC.read()
 
   # Convertir el valor leído en humedad relativa
-  humedad = int((lectura/4095)*100)
-  print("Humedad detectada: {}%".format(humedad))
-  time.sleep(0.5)
+    humedad = int((100*lectura)/4095) # "100" respesenta 100%, "4095" la lectura de ESP32 y la "lectura" es la variable
+    print("Humedad detectada: {}%".format(humedad))
+    time.sleep(0.5)
 
   # Encender el LED si se detecta humedad
-  if 50 < humedad:
-    ledPin.value(1)
-    time.sleep(0.5)
-    ledPin.value(0)
-    time.sleep(0.5)
+    if 50 < humedad:
+        ledPin.value(1)
+        time.sleep(0.5)
+        ledPin.value(0)
+        time.sleep(0.5)
